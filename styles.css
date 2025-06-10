@@ -8,8 +8,9 @@
     --background-dark: #1A1A1A;
     --white: #FFFFFF;
     
-    --font-primary: 'Space Grotesk', sans-serif;
-    --font-secondary: 'Inter', sans-serif;
+    --font-primary: 'Orbitron', monospace;
+    --font-secondary: 'Saira Condensed', sans-serif;
+    --font-accent: 'Audiowide', cursive;
     
     --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.1);
     --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.15);
@@ -60,11 +61,12 @@ body {
 }
 
 .logo {
-    font-family: var(--font-primary);
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-family: var(--font-accent);
+    font-size: 1.8rem;
+    font-weight: 400;
     color: var(--primary-color);
-    letter-spacing: -0.02em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
 .nav-menu {
@@ -115,18 +117,21 @@ body {
 .hero-title {
     font-family: var(--font-primary);
     font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 700;
-    line-height: 1.1;
+    font-weight: 900;
+    line-height: 1.0;
     color: var(--text-dark);
     margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
 }
 
 .hero-subtitle {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     color: var(--text-light);
     margin-bottom: 2.5rem;
     max-width: 500px;
+    font-weight: 400;
+    line-height: 1.5;
 }
 
 .hero-actions {
@@ -137,7 +142,7 @@ body {
 
 .btn {
     font-family: var(--font-secondary);
-    font-weight: 500;
+    font-weight: 600;
     padding: 0.875rem 2rem;
     border: none;
     border-radius: var(--border-radius);
@@ -146,6 +151,8 @@ body {
     text-decoration: none;
     display: inline-block;
     font-size: 1rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
 }
 
 .btn-primary {
@@ -314,13 +321,14 @@ body {
 }
 
 .section-title {
-    font-family: var(--font-primary);
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-family: var(--font-accent);
+    font-size: 2.8rem;
+    font-weight: 400;
     text-align: center;
     margin-bottom: 3rem;
     color: var(--text-dark);
-    letter-spacing: -0.02em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .features-grid {
@@ -507,10 +515,12 @@ body {
 
 .feature-card h4 {
     font-family: var(--font-primary);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
     margin-bottom: 1rem;
     color: var(--text-dark);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .feature-card p {
@@ -800,11 +810,12 @@ body {
 }
 
 .cta-title {
-    font-family: var(--font-primary);
-    font-size: 3rem;
-    font-weight: 700;
+    font-family: var(--font-accent);
+    font-size: 3.2rem;
+    font-weight: 400;
     margin-bottom: 1rem;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .cta-subtitle {
@@ -837,11 +848,13 @@ body {
 }
 
 .footer-brand h4 {
-    font-family: var(--font-primary);
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-family: var(--font-accent);
+    font-size: 1.4rem;
+    font-weight: 400;
     margin-bottom: 0.5rem;
     color: var(--accent-color);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
 .footer-brand p {
