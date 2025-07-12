@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravitique Demo - Experience the Future</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Demo-specific styles */
+        .demo-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .demo-control-panel {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .control-group {
+            margin-bottom: 2rem;
+        }
+        
+        .control-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+        
+        .slider-container {
+            position: relative;
+            margin: 1rem 0;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--background-light);
+            outline: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .slider:hover {
+            opacity: 1;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(212, 165, 116, 0.5);
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 10px rgba(212, 165, 116, 0.5);
+        }
+        
+        .demo-viewport {
+            background: var(--background-dark);
+            border-radius: var(--border-radius-large);
+            padding: 3rem;
+            position: relative;
+            min-height: 500px;
+            overflow: hidden;
+            border: 2px solid var(--glass-border);
+        }
+        
+        .demo-scene {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .demo-orb {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(212, 165, 116, 0.5);
+        }
+        
+        .gravity-field {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: fieldPulse 3s infinite ease-in-out;
+        }
+        
+        @keyframes fieldPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.1; }
+        }
+        
+        .floating-object {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--secondary-color);
+            border-radius: 4px;
+            transition: all 0.5s ease;
+        }
+        
+        .status-panel {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .status-item {
+            text-align: center;
+        }
+        
+        .status-value {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            display: block;
+        }
+        
+        .status-label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .demo-instructions {
+            background: linear-gradient(135deg, rgba(44, 95, 45, 0.1), rgba(212, 165, 116, 0.1));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .instruction-step {
+            display: inline-block;
+            background: var(--accent-color);
+            color: var(--white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            line-height: 30px;
+            text-align: center;
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .demo-container {
+                padding: 1rem;
+            }
+            
+            .demo-control-panel {
+                padding: 1.5rem;
+            }
+            
+            .demo-viewport {
+                padding: 2rem;
+                min-height: 400px;
+            }
+            
+            .demo-scene {
+                height: 300px;
+            }
+            
+            .status-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cursor -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursor-follower"></div>
+
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1 class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">Gravitique</a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#technology">Technology</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="demo.html" class="active">Demo</a></li>
+                <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" style="min-height: 60vh; padding-top: 8rem;" data-scroll-section>
+            <div class="hero-bg-particles"></div>
+            <div class="hero-content" style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h2 class="hero-title">Experience Gravitique<br>Interactive Demo</h2>
+                <p class="hero-subtitle">Manipulate gravitational fields in real-time and witness the power of our revolutionary technology.</p>
+            </div>
+        </section>
+
+        <!-- Demo Section -->
+        <section class="features" data-scroll-section>
+            <div class="demo-container">
+                <div class="demo-instructions">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">How to Use the Demo</h3>
+                    <p style="margin-bottom: 1rem;"><span class="instruction-step">1</span>Adjust the gravity field strength using the intensity slider</p>
+                    <p style="margin-bottom: 1rem;"><span class="instruction-step">2</span>Control the field radius to see how objects respond</p>
+                    <p><span class="instruction-step">3</span>Watch as floating objects react to your gravitational manipulations</p>
+                </div>
+
+                <div class="demo-control-panel">
+                    <h3 style="margin-bottom: 2rem; color: var(--primary-color);">Gravity Field Controls</h3>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Field Intensity</label>
+                        <div class="slider-container">
+                            <input type="range" min="0" max="100" value="50" class="slider" id="intensitySlider">
+                        </div>
+                        <span id="intensityValue" style="color: var(--accent-color); font-weight: 600;">50%</span>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Field Radius</label>
+                        <div class="slider-container">
+                            <input type="range" min="50" max="300" value="150" class="slider" id="radiusSlider">
+                        </div>
+                        <span id="radiusValue" style="color: var(--accent-color); font-weight: 600;">150px</span>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Particle Count</label>
+                        <div class="slider-container">
+                            <input type="range" min="3" max="12" value="6" class="slider" id="particleSlider">
+                        </div>
+                        <span id="particleValue" style="color: var(--accent-color); font-weight: 600;">6 objects</span>
+                    </div>
+                </div>
+
+                <div class="demo-viewport">
+                    <div class="demo-scene" id="demoScene">
+                        <div class="demo-orb" id="demoOrb"></div>
+                        <div class="gravity-field" id="gravityField"></div>
+                    </div>
+                </div>
+
+                <div class="status-panel">
+                    <h4 style="margin-bottom: 1.5rem; text-align: center; color: var(--primary-color);">System Status</h4>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <span class="status-value" id="energyStatus">2.4kW</span>
+                            <span class="status-label">Energy Draw</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-value" id="fieldStatus">Active</span>
+                            <span class="status-label">Field Status</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-value" id="stabilityStatus">99.7%</span>
+                            <span class="status-label">Stability</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-value" id="tempStatus">23°C</span>
+                            <span class="status-label">Core Temp</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Specs -->
+        <section class="about" data-scroll-section>
+            <div class="container">
+                <h3 class="section-title">Technical Specifications</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div class="feature-card" style="background: var(--glass-bg); backdrop-filter: var(--backdrop-blur);">
+                        <h4 style="color: var(--white); margin-bottom: 1rem;">Quantum Field Generator</h4>
+                        <ul style="color: rgba(255, 255, 255, 0.8); line-height: 1.8; list-style: none; padding: 0;">
+                            <li>• Maximum field strength: 10⁻⁶ g</li>
+                            <li>• Effective radius: 5m</li>
+                            <li>• Response time: <1ms</li>
+                            <li>• Power consumption: 2-5kW</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card" style="background: var(--glass-bg); backdrop-filter: var(--backdrop-blur);">
+                        <h4 style="color: var(--white); margin-bottom: 1rem;">Control System</h4>
+                        <ul style="color: rgba(255, 255, 255, 0.8); line-height: 1.8; list-style: none; padding: 0;">
+                            <li>• Neural interface compatible</li>
+                            <li>• Gesture recognition</li>
+                            <li>• Voice command support</li>
+                            <li>• Mobile app integration</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card" style="background: var(--glass-bg); backdrop-filter: var(--backdrop-blur);">
+                        <h4 style="color: var(--white); margin-bottom: 1rem;">Safety Features</h4>
+                        <ul style="color: rgba(255, 255, 255, 0.8); line-height: 1.8; list-style: none; padding: 0;">
+                            <li>• Automatic field containment</li>
+                            <li>• Emergency shutdown</li>
+                            <li>• Biometric safety locks</li>
+                            <li>• Redundant fail-safes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta" data-scroll-section>
+            <div class="container">
+                <h3 class="cta-title">Ready for the Real Experience?</h3>
+                <p class="cta-subtitle">Schedule a private demonstration at our Geneva facility.</p>
+                <a href="index.html#contact" class="btn btn-primary btn-large">Request Private Demo</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h4>Gravitique</h4>
+                    <p>Redefining the impossible.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="demo.html">Demo</a>
+                    <a href="#privacy">Privacy</a>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Gravitique. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Custom cursor
+        const cursor = document.getElementById('cursor')
+        const follower = document.getElementById('cursor-follower')
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px'
+            cursor.style.top = e.clientY + 'px'
+            
+            setTimeout(() => {
+                follower.style.left = e.clientX + 'px'
+                follower.style.top = e.clientY + 'px'
+            }, 100)
+        })
+
+        // Hover effects for interactive elements
+        const interactiveElements = document.querySelectorAll('button, a, .slider')
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('cursor-hover')
+                follower.classList.add('cursor-hover')
+            })
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('cursor-hover')
+                follower.classList.remove('cursor-hover')
+            })
+        })
+
+        // Demo functionality
+        const intensitySlider = document.getElementById('intensitySlider')
+        const radiusSlider = document.getElementById('radiusSlider')
+        const particleSlider = document.getElementById('particleSlider')
+        const demoScene = document.getElementById('demoScene')
+        const demoOrb = document.getElementById('demoOrb')
+        const gravityField = document.getElementById('gravityField')
+
+        let floatingObjects = []
+
+        // Create floating objects
+        function createFloatingObjects(count) {
+            // Remove existing objects
+            floatingObjects.forEach(obj => {
+                if (obj.element.parentNode) {
+                    obj.element.parentNode.removeChild(obj.element)
+                }
+            })
+            floatingObjects = []
+
+            // Create new objects
+            for (let i = 0; i < count; i++) {
+                const obj = document.createElement('div')
+                obj.className = 'floating-object'
+                
+                // Random position around the orb
+                const angle = (i / count) * Math.PI * 2
+                const distance = 100 + Math.random() * 50
+                const x = Math.cos(angle) * distance
+                const y = Math.sin(angle) * distance
+                
+                obj.style.left = `calc(50% + ${x}px)`
+                obj.style.top = `calc(50% + ${y}px)`
+                
+                demoScene.appendChild(obj)
+                floatingObjects.push({
+                    element: obj,
+                    baseX: x,
+                    baseY: y,
+                    angle: angle
+                })
+            }
+        }
+
+        // Update demo based on sliders
+        function updateDemo() {
+            const intensity = intensitySlider.value
+            const radius = radiusSlider.value
+            const particleCount = particleSlider.value
+
+            // Update displays
+            document.getElementById('intensityValue').textContent = intensity + '%'
+            document.getElementById('radiusValue').textContent = radius + 'px'
+            document.getElementById('particleValue').textContent = particleCount + ' objects'
+
+            // Update gravity field visual
+            gravityField.style.width = radius * 2 + 'px'
+            gravityField.style.height = radius * 2 + 'px'
+            gravityField.style.opacity = intensity / 100 * 0.5
+
+            // Update orb glow based on intensity
+            const glowIntensity = intensity / 100
+            demoOrb.style.boxShadow = `0 0 ${30 + glowIntensity * 50}px rgba(212, 165, 116, ${0.5 + glowIntensity * 0.5})`
+
+            // Update floating objects
+            if (floatingObjects.length !== parseInt(particleCount)) {
+                createFloatingObjects(parseInt(particleCount))
+            }
+
+            // Animate objects based on field strength
+            floatingObjects.forEach((obj, index) => {
+                const fieldStrength = intensity / 100
+                const pullDistance = fieldStrength * 30
+                const newX = obj.baseX - (obj.baseX * pullDistance / 100)
+                const newY = obj.baseY - (obj.baseY * pullDistance / 100)
+                
+                obj.element.style.transform = `translate(${newX - obj.baseX}px, ${newY - obj.baseY}px) rotate(${fieldStrength * 360}deg)`
+                obj.element.style.opacity = 0.7 + fieldStrength * 0.3
+            })
+
+            // Update status displays
+            const energy = (2 + (intensity / 100) * 3).toFixed(1)
+            document.getElementById('energyStatus').textContent = energy + 'kW'
+            
+            const stability = (99.9 - (intensity / 100) * 0.3).toFixed(1)
+            document.getElementById('stabilityStatus').textContent = stability + '%'
+            
+            const temp = (20 + (intensity / 100) * 8).toFixed(0)
+            document.getElementById('tempStatus').textContent = temp + '°C'
+        }
+
+        // Event listeners
+        intensitySlider.addEventListener('input', updateDemo)
+        radiusSlider.addEventListener('input', updateDemo)
+        particleSlider.addEventListener('input', updateDemo)
+
+        // Initialize demo
+        createFloatingObjects(6)
+        updateDemo()
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in')
+                }
+            })
+        }, observerOptions)
+
+        // Observe all sections
+        document.querySelectorAll('[data-scroll-section]').forEach(section => {
+            observer.observe(section)
+        })
+
+        // Particle systems
+        function createParticles(container, count = 50) {
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div')
+                particle.className = 'particle'
+                particle.style.left = Math.random() * 100 + '%'
+                particle.style.top = Math.random() * 100 + '%'
+                particle.style.animationDelay = Math.random() * 10 + 's'
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's'
+                container.appendChild(particle)
+            }
+        }
+
+        // Add particles to hero
+        const heroParticles = document.querySelector('.hero-bg-particles')
+        if (heroParticles) {
+            createParticles(heroParticles, 30)
+        }
+
+        // Active nav styling
+        const style = document.createElement('style')
+        style.textContent = `
+            .nav-menu a.active {
+                color: var(--primary-color);
+                font-weight: 600;
+            }
+        `
+        document.head.appendChild(style)
+
+        // Animate field on load
+        setTimeout(() => {
+            intensitySlider.value = 75
+            updateDemo()
+        }, 1000)
+    </script>
+</body>
+</html>
