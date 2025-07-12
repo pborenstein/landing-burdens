@@ -11,8 +11,48 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Preloader styles */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1A1A1A 0%, #2C5F2D 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .preloader-orb {
+            width: 80px;
+            height: 80px;
+            border: 3px solid transparent;
+            border-top: 3px solid #D4A574;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-orb"></div>
+    </div>
+
+    <!-- Cursor -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursor-follower"></div>
     <header class="header">
         <nav class="nav">
             <div class="nav-brand">
@@ -27,7 +67,8 @@
     </header>
 
     <main>
-        <section class="hero">
+        <section class="hero" data-scroll-section>
+            <div class="hero-bg-particles"></div>
             <div class="hero-content">
                 <h2 class="hero-title">Redefining Gravity.<br>Elevating Excellence.</h2>
                 <p class="hero-subtitle">Cutting-edge gravitational technology designed exclusively for those who demand the extraordinary.</p>
@@ -37,34 +78,49 @@
                 </div>
             </div>
             <div class="hero-visual">
-                <div class="gravity-orb"></div>
+                <div class="gravity-orb">
+                    <div class="orb-ring"></div>
+                    <div class="orb-ring orb-ring-2"></div>
+                    <div class="orb-core"></div>
+                </div>
+                <div class="floating-elements">
+                    <div class="float-particle" style="--delay: 0s; --duration: 8s;"></div>
+                    <div class="float-particle" style="--delay: 2s; --duration: 10s;"></div>
+                    <div class="float-particle" style="--delay: 4s; --duration: 6s;"></div>
+                </div>
             </div>
         </section>
 
-        <section class="features" id="technology">
+        <section class="features" id="technology" data-scroll-section>
             <div class="container">
                 <h3 class="section-title">Revolutionary Technology</h3>
                 <div class="features-grid">
-                    <div class="feature-card">
+                    <div class="feature-card" data-tilt>
+                        <div class="feature-glow"></div>
                         <div class="feature-icon">⚡</div>
                         <h4>Quantum Gravity Fields</h4>
                         <p>Harness controlled gravitational fields with unprecedented precision and elegance.</p>
+                        <div class="feature-particles"></div>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card" data-tilt>
+                        <div class="feature-glow"></div>
                         <div class="feature-icon">🔬</div>
                         <h4>Molecular Engineering</h4>
                         <p>Advanced materials engineered at the molecular level for maximum efficiency.</p>
+                        <div class="feature-particles"></div>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card" data-tilt>
+                        <div class="feature-glow"></div>
                         <div class="feature-icon">🌌</div>
                         <h4>Spatial Dynamics</h4>
                         <p>Transform your environment with revolutionary spatial manipulation technology.</p>
+                        <div class="feature-particles"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="about" id="about">
+        <section class="about" id="about" data-scroll-section>
             <div class="container">
                 <div class="about-content">
                     <div class="about-text">
@@ -90,7 +146,7 @@
             </div>
         </section>
 
-        <section class="cta" id="contact">
+        <section class="cta" id="contact" data-scroll-section>
             <div class="container">
                 <h3 class="cta-title">Ready to Elevate?</h3>
                 <p class="cta-subtitle">Join the exclusive circle of Gravitique pioneers.</p>
@@ -117,5 +173,186 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Preloader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('fade-out')
+                setTimeout(() => {
+                    document.getElementById('preloader').style.display = 'none'
+                }, 500)
+            }, 1000)
+        })
+
+        // Custom cursor
+        const cursor = document.getElementById('cursor')
+        const follower = document.getElementById('cursor-follower')
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px'
+            cursor.style.top = e.clientY + 'px'
+            
+            setTimeout(() => {
+                follower.style.left = e.clientX + 'px'
+                follower.style.top = e.clientY + 'px'
+            }, 100)
+        })
+
+        // Hover effects for interactive elements
+        const interactiveElements = document.querySelectorAll('button, a, .feature-card')
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('cursor-hover')
+                follower.classList.add('cursor-hover')
+            })
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('cursor-hover')
+                follower.classList.remove('cursor-hover')
+            })
+        })
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault()
+                const target = document.querySelector(this.getAttribute('href'))
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    })
+                }
+            })
+        })
+
+        // Parallax effects
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset
+            const parallaxElements = document.querySelectorAll('[data-parallax]')
+            
+            parallaxElements.forEach(element => {
+                const speed = element.dataset.parallax || 0.5
+                const yPos = -(scrolled * speed)
+                element.style.transform = `translateY(${yPos}px)`
+            })
+        })
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in')
+                }
+            })
+        }, observerOptions)
+
+        // Observe all sections
+        document.querySelectorAll('[data-scroll-section]').forEach(section => {
+            observer.observe(section)
+        })
+
+        // Feature card tilt effect
+        document.querySelectorAll('[data-tilt]').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect()
+                const x = e.clientX - rect.left
+                const y = e.clientY - rect.top
+                
+                const centerX = rect.width / 2
+                const centerY = rect.height / 2
+                
+                const rotateX = (y - centerY) / 10
+                const rotateY = (centerX - x) / 10
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`
+            })
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)'
+            })
+        })
+
+        // Particle systems
+        function createParticles(container, count = 50) {
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div')
+                particle.className = 'particle'
+                particle.style.left = Math.random() * 100 + '%'
+                particle.style.top = Math.random() * 100 + '%'
+                particle.style.animationDelay = Math.random() * 10 + 's'
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's'
+                container.appendChild(particle)
+            }
+        }
+
+        // Add particles to hero
+        const heroParticles = document.querySelector('.hero-bg-particles')
+        if (heroParticles) {
+            createParticles(heroParticles, 30)
+        }
+
+        // Add particles to feature cards
+        document.querySelectorAll('.feature-particles').forEach(container => {
+            createParticles(container, 20)
+        })
+
+        // Mouse trail effect
+        let mouseTrail = []
+        document.addEventListener('mousemove', (e) => {
+            mouseTrail.push({ x: e.clientX, y: e.clientY, time: Date.now() })
+            if (mouseTrail.length > 10) mouseTrail.shift()
+        })
+
+        // Stats counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number')
+            counters.forEach(counter => {
+                const target = counter.textContent
+                if (target === '∞') return
+                
+                const isDecimal = target.includes('.')
+                const numTarget = parseFloat(target.replace('%', '').replace('s', ''))
+                let current = 0
+                const increment = numTarget / 50
+                
+                const updateCounter = () => {
+                    if (current < numTarget) {
+                        current += increment
+                        if (isDecimal) {
+                            counter.textContent = current.toFixed(3) + (target.includes('s') ? 's' : target.includes('%') ? '%' : '')
+                        } else {
+                            counter.textContent = Math.ceil(current) + (target.includes('%') ? '%' : '')
+                        }
+                        requestAnimationFrame(updateCounter)
+                    } else {
+                        counter.textContent = target
+                    }
+                }
+                updateCounter()
+            })
+        }
+
+        // Trigger counter animation when about section is visible
+        const aboutObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters()
+                    aboutObserver.unobserve(entry.target)
+                }
+            })
+        })
+
+        const aboutSection = document.querySelector('.about')
+        if (aboutSection) {
+            aboutObserver.observe(aboutSection)
+        }
+
+    </script>
 </body>
 </html>
