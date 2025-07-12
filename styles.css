@@ -192,10 +192,10 @@ body {
     display: flex;
     align-items: center;
     min-height: 100vh;
-    padding: 8rem 2rem 4rem;
+    padding: 6rem 2rem 3rem;
     max-width: 1200px;
     margin: 0 auto;
-    gap: 4rem;
+    gap: 3rem;
     position: relative;
     overflow: hidden;
 }
@@ -247,14 +247,14 @@ body {
     font-weight: 700;
     line-height: 1.1;
     color: var(--text-dark);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     letter-spacing: -0.02em;
 }
 
 .hero-subtitle {
     font-size: 1.25rem;
     color: var(--text-light);
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     max-width: 500px;
 }
 
@@ -437,7 +437,7 @@ body {
 }
 
 .features {
-    padding: 6rem 0;
+    padding: 4rem 0;
     background: var(--white);
 }
 
@@ -446,7 +446,7 @@ body {
     font-size: 2.5rem;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     color: var(--text-dark);
     letter-spacing: -0.02em;
 }
@@ -454,14 +454,14 @@ body {
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+    gap: 1.5rem;
+    margin-top: 2rem;
 }
 
 .feature-card {
     background: var(--glass-bg);
     backdrop-filter: var(--backdrop-blur);
-    padding: 2.5rem;
+    padding: 2rem;
     border-radius: var(--border-radius-large);
     text-align: center;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -552,7 +552,7 @@ body {
 
 .feature-icon {
     font-size: 3rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     display: block;
     filter: drop-shadow(0 0 10px rgba(212, 165, 116, 0.5));
     transition: all 0.3s ease;
@@ -577,7 +577,7 @@ body {
 }
 
 .about {
-    padding: 6rem 0;
+    padding: 4rem 0;
     background: linear-gradient(135deg, var(--background-dark) 0%, #0f1f10 100%);
     color: var(--white);
     position: relative;
@@ -605,7 +605,7 @@ body {
 .about-content {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 4rem;
+    gap: 3rem;
     align-items: center;
 }
 
@@ -619,7 +619,7 @@ body {
 .about-stats {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .stat {
@@ -672,7 +672,7 @@ body {
 }
 
 .cta {
-    padding: 6rem 0;
+    padding: 4rem 0;
     background: linear-gradient(135deg, var(--primary-color) 0%, #1a4a1c 100%);
     color: var(--white);
     text-align: center;
@@ -709,7 +709,7 @@ body {
 
 .cta-subtitle {
     font-size: 1.25rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     opacity: 0.9;
 }
 
@@ -726,14 +726,14 @@ body {
 .footer {
     background: var(--background-dark);
     color: var(--white);
-    padding: 3rem 0 1rem;
+    padding: 2rem 0 1rem;
 }
 
 .footer-content {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .footer-brand h4 {
@@ -788,8 +788,8 @@ body {
     .hero {
         flex-direction: column;
         text-align: center;
-        gap: 2rem;
-        padding: 6rem 1rem 4rem;
+        gap: 1.5rem;
+        padding: 5rem 1rem 3rem;
     }
     
     .hero-visual {
@@ -821,7 +821,7 @@ body {
     
     .about-content {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 1.5rem;
     }
     
     .about-stats {
@@ -837,7 +837,7 @@ body {
     
     .footer-content {
         flex-direction: column;
-        gap: 2rem;
+        gap: 1.5rem;
         text-align: center;
     }
     
@@ -858,7 +858,7 @@ body {
     }
     
     .feature-card {
-        padding: 2rem;
+        padding: 1.5rem;
     }
     
     .feature-card:hover {
